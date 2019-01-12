@@ -30,10 +30,11 @@ $shirtColor.hide();
 // If the user selects "Theme - I ♥ JS" then the color menu should only display "Tomato," "Steel Blue," and "Dim Grey."
 // When a new theme is selected from the "Design" menu, the "Color" field and drop down menu is updated.
 
-const $shirtOption = $("design");
+const $shirtOption = $("#design");
 $($shirtOption).change(function(){
 if ($shirtOption.val() === "js puns"){
     $shirtColor.show();
+    $('#color').val('cornflowerblue');
     $('#color option[value="cornflowerblue"]').show();
     $('#color option[value="darkslategrey"]').show();
     $('#color option[value="gold"]').show();
@@ -43,6 +44,7 @@ if ($shirtOption.val() === "js puns"){
 } 
 else if ($shirtOption.val()==="heart js"){
     $shirtColor.show();
+    $('#color').val('tomato');
     $('#color option[value="cornflowerblue"]').hide();
     $('#color option[value="darkslategrey"]').hide();
     $('#color option[value="gold"]').hide();
@@ -53,8 +55,49 @@ else if ($shirtOption.val()==="heart js"){
 });
 
 
+    //$selectTheme.prop("disabled", true);
+
+
 // Some events are at the same day and time as others. If the user selects a workshop, don't allow selection of a workshop at the same day and time -- you should disable the checkbox and visually indicate that the workshop in the competing time slot isn't available.
 // When a user unchecks an activity, make sure that competing activities (if there are any) are no longer disabled.
+var $jsFrameworks = $('input[name ="js-frameworks"]')
+var $jsLibraries = $("input[name='js-libs']");
+var $express = $("input[name='express']");
+var $nodeJS = $("input[name='node']");
+
+$jsFrameworks.change(function(){
+    if($(this).is(':checked')){
+        $express.prop('disabled', true);
+    } else {
+        $express.prop('disabled', false);
+    }
+});
+
+$express.change(function(){
+    if($(this).is(':checked')){
+        $jsFrameworks.prop('disabled', true);
+    } else {
+        $jsFrameworks.prop('disabled', false);
+    }
+});
+
+$jsLibraries.change(function(){
+    if($(this).is(':checked')){
+        $nodeJS.prop('disabled', true);
+    } else {
+        $nodeJS.prop('disabled', false);
+    }
+});
+
+$nodeJS.change(function(){
+    if($(this).is(':checked')){
+        $jsLibraries.prop('disabled', true);
+    } else {
+        $jsLibraries.prop('disabled', false);
+    }
+});
+
+
 // As a user selects activities, a running total should display below the list of checkboxes. For example, if the user selects "Main Conference", then Total: $200 should appear. If they add 1 workshop, the total should change to Total: $300.
 
 
