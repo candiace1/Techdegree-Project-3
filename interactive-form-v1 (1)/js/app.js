@@ -1,4 +1,3 @@
-
 console.log('21');
 //autofocus on name bar
 $('#name').focus();
@@ -24,21 +23,34 @@ $('#title').on('change', function(e){
 })
 
 
-
-// Give the field an id of “other-title,” and add the placeholder text of "Your Job Role".
-
-
-
-
-
-
 // For the T-Shirt "Color" menu, only display the color options that match the design selected in the "Design" menu.
+const $shirtColor = $("#colors-js-puns");
+$shirtColor.hide();
 // If the user selects "Theme - JS Puns" then the color menu should only display "Cornflower Blue," "Dark Slate Grey," and "Gold."
 // If the user selects "Theme - I ♥ JS" then the color menu should only display "Tomato," "Steel Blue," and "Dim Grey."
 // When a new theme is selected from the "Design" menu, the "Color" field and drop down menu is updated.
 
-
-
+const $shirtOption = $("design");
+$($shirtOption).change(function(){
+if ($shirtOption.val() === "js puns"){
+    $shirtColor.show();
+    $('#color option[value="cornflowerblue"]').show();
+    $('#color option[value="darkslategrey"]').show();
+    $('#color option[value="gold"]').show();
+    $('#color option[value="tomato"]').hide();
+    $('#color option[value="steelblue"]').hide();
+    $('#color option[value="dimgrey"]').hide();
+} 
+else if ($shirtOption.val()==="heart js"){
+    $shirtColor.show();
+    $('#color option[value="cornflowerblue"]').hide();
+    $('#color option[value="darkslategrey"]').hide();
+    $('#color option[value="gold"]').hide();
+    $('#color option[value="tomato"]').show();
+    $('#color option[value="steelblue"]').show();
+    $('#color option[value="dimgrey"]').show();
+}
+});
 
 
 // Some events are at the same day and time as others. If the user selects a workshop, don't allow selection of a workshop at the same day and time -- you should disable the checkbox and visually indicate that the workshop in the competing time slot isn't available.
