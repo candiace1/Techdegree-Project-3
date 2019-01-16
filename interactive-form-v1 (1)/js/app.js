@@ -99,8 +99,18 @@ $nodeJS.change(function(){
 
 
 // As a user selects activities, a running total should display below the list of checkboxes. For example, if the user selects "Main Conference", then Total: $200 should appear. If they add 1 workshop, the total should change to Total: $300.
-let runningTotal = 0
-#(.targetDiv).append(<p><runningTotal/p>)
+let runningTotal = 0; 
+/*
+let runningTotal = () =>{
+if box is checked then add
+}
+*/
+let activitiesField = $('.activities');
+let moneyDiv = document.createElement('div');
+
+$(moneyDiv).append(`<p>${runningTotal}</p>`);
+
+$(activitiesField).append(moneyDiv);
 
 // Display payment sections based on the payment option chosen in the select menu.
 // The "Credit Card" payment option should be selected by default. Display the #credit-card div, and hide the "PayPal" and "Bitcoin" information. Payment option in the select menu should match the payment option displayed on the page.
