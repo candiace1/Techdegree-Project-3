@@ -65,51 +65,52 @@ var $jsLibraries = $("input[name='js-libs']");
 var $express = $("input[name='express']");
 var $nodeJS = $("input[name='node']");
 
-$jsFrameworks.change(function(){
-    if($(this).is(':checked')){
-        $express.prop('disabled', true);
-    } else {
-        $express.prop('disabled', false);
-    }
-});
+    $jsFrameworks.change(function(){
+        if($(this).is(':checked')){
+            $express.prop('disabled', true);
+        } else {
+            $express.prop('disabled', false);
+        }
+    });
 
-$express.change(function(){
-    if($(this).is(':checked')){
-        $jsFrameworks.prop('disabled', true);
-    } else {
-        $jsFrameworks.prop('disabled', false);
-    }
-});
+    $express.change(function(){
+        if($(this).is(':checked')){
+            $jsFrameworks.prop('disabled', true);
+        } else {
+            $jsFrameworks.prop('disabled', false);
+        }
+    });
 
-$jsLibraries.change(function(){
-    if($(this).is(':checked')){
-        $nodeJS.prop('disabled', true);
-    } else {
-        $nodeJS.prop('disabled', false);
-    }
-});
+    $jsLibraries.change(function(){
+        if($(this).is(':checked')){
+            $nodeJS.prop('disabled', true);
+        } else {
+            $nodeJS.prop('disabled', false);
+        }
+    });
 
-$nodeJS.change(function(){
-    if($(this).is(':checked')){
-        $jsLibraries.prop('disabled', true);
-    } else {
-        $jsLibraries.prop('disabled', false);
-    }
-});
+    $nodeJS.change(function(){
+        if($(this).is(':checked')){
+            $jsLibraries.prop('disabled', true);
+        } else {
+            $jsLibraries.prop('disabled', false);
+        }
+
+    });
 
 
 // As a user selects activities, a running total should display below the list of checkboxes. For example, if the user selects "Main Conference", then Total: $200 should appear. If they add 1 workshop, the total should change to Total: $300.
-let runningTotal = 0; 
-/*
-let runningTotal = () =>{
-if box is checked then add
-}
-*/
 let activitiesField = $('.activities');
 let moneyDiv = document.createElement('div');
+$('.activities').on('change', (e) => {
+    let g = e.target.text();
+    console.log(g);
+    let runningTotal = 0; //runningTotal += parseInt(text)
+    //let runningTotal = $(`input[type=checkbox]`).text();
+    moneyDiv.innerHTML = ('$' + runningTotal);
 
-$(moneyDiv).append(`<p>${runningTotal}</p>`);
-
+});
+//append to page
 $(activitiesField).append(moneyDiv);
 
 // Display payment sections based on the payment option chosen in the select menu.
