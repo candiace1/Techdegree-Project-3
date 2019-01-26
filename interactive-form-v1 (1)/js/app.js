@@ -103,11 +103,13 @@ var $nodeJS = $("input[name='node']");
 let activitiesField = $('.activities');
 let moneyDiv = document.createElement('div');
 $('.activities').on('change', (e) => {
-    let g = e.target.text();
-    console.log(g);
-    let runningTotal = 0; //runningTotal += parseInt(text)
-    //let runningTotal = $(`input[type=checkbox]`).text();
-    moneyDiv.innerHTML = ('$' + runningTotal);
+    let g = e.target.parentNode.innerHTML;
+    var pos = g.indexOf("$");
+    var res = g.substring(pos + 1);
+    console.log(res);
+    let runningTotal = parseInt(res); //runningTotal += parseInt(text)
+    //let runningTotal = $(`input[type=checkbox]`).index(g);
+    moneyDiv.innerHTML += ('$' + runningTotal);
 
 });
 //append to page
