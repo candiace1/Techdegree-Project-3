@@ -209,7 +209,7 @@ const validateName = () => {
     $('#mail').keyup(validateEmail).focusout(validateEmail);
 
 
-    //credit card validation
+     //credit card validation
     //credit card number - must be numbers - must be between 13 & 16 numbers long
     const validateCC = () => {
         //remove any previous error messages
@@ -243,7 +243,6 @@ const validateName = () => {
     }
     //call the validate function
     $('#cc-num').keyup(validateCC).focusout(validateCC);
-
 
 
  //zipcode - must be a number - must be 5 numbers long
@@ -318,15 +317,18 @@ $('#zip').keyup(validateZip).focusout(validateZip);
 // The user should still have access to all form fields and payment information if JS isn't working for whatever reason. For example, when the JS is removed from the project:
 // The “Other” text field under the "Job Role" section should be visible
 // All information for Bitcoin, PayPal or Credit Card payments should be visible.
- $('button').click(() => {
-    validateName();
-    validateEmail();
-    validateEvents();
+ $('button').click((e) => {
+
     let selected = $('#payment option:selected').text();
     if (selected === "Credit Card" ) {
+        console.log('Credit Card selected')
         validateCC();
         validateZip();
         validateCVV();
     }
+
+    // validateName();
+    // validateEmail();
+    validateEvents();
 });
 
