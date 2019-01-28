@@ -102,7 +102,7 @@ var $nodeJS = $("input[name='node']");
 // As a user selects activities, a running total should display below the list of checkboxes. For example, if the user selects "Main Conference", then Total: $200 should appear. If they add 1 workshop, the total should change to Total: $300.
 let activitiesField = $('.activities');
 let moneyDiv = document.createElement('div');
-let runningTotal = '';
+let runningTotal = 0;
 $('.activities').on('change', (e) => {
     let isChecked = $(e.target).is(':checked'); //`input[type=checkbox]`
     console.log('checked = ' + isChecked);
@@ -121,6 +121,7 @@ $('.activities').on('change', (e) => {
 });
 //append to page
 $(activitiesField).append(moneyDiv);
+
 
 // Display payment sections based on the payment option chosen in the select menu.
 $('#credit-card').next().addClass('paypal');
@@ -317,7 +318,15 @@ $('#zip').keyup(validateZip).focusout(validateZip);
 // The user should still have access to all form fields and payment information if JS isn't working for whatever reason. For example, when the JS is removed from the project:
 // The “Other” text field under the "Job Role" section should be visible
 // All information for Bitcoin, PayPal or Credit Card payments should be visible.
-
-
-
+ $('button').click(() => {
+    validateName();
+    validateEmail();
+    validateEvents();
+    let selected = $('#payment option:selected').text();
+    if (selected === "Credit Card" ) {
+        validateCC();
+        validateZip();
+        validateCVV();
+    }
+});
 
