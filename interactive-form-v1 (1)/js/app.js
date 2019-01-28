@@ -116,10 +116,6 @@ $('.activities').on('change', (e) => {
 $(activitiesField).append(moneyDiv);
 
 // Display payment sections based on the payment option chosen in the select menu.
-// The "Credit Card" payment option should be selected by default. Display the #credit-card div, and hide the "PayPal" and "Bitcoin" information. Payment option in the select menu should match the payment option displayed on the page.
-// When a user selects the "PayPal" payment option, the PayPal information should display, and the credit card and “Bitcoin” information should be hidden.
-// When a user selects the "Bitcoin" payment option, the Bitcoin information should display, and the credit card and “PayPal” information should be hidden.
-//adding classes to the other payment option divs to make them easier to work with
 $('#credit-card').next().addClass('paypal');
 $('#credit-card').next().next().addClass('bitcoin');
 //hide payment divs until payment preference is chosen
@@ -153,36 +149,162 @@ $('#payment').change((event) => {
 
 // If any of the following validation errors exist, prevent the user from submitting the form:
 // Name field can't be blank.
+const validateName = () => {
+    //remove any previous error messages
+    $('.nameVal').remove();
+    //get the input value for the name
+    let nameVal = $('#name').val();
+    //if it is empty - tell user to input name and disabled the submit button
+    if ( nameVal === "") {
+        $('#name').css('border-color', 'red').attr('placeholder', 'Please Enter Your Name');
+        $('button').prop('disabled', true).css('cursor', 'not-allowed');
+    //if the input is a number and not a name - place an error message and disabled button
+    } else if ( !isNaN(nameVal) ) {
+        $('#name').css('border-color', 'red');
+        $('#name').after('<p class="nameVal">Please enter a name using letters.</p>');
+        $('button').prop('disabled', true).css('cursor', 'not-allowed');
+    //if the value is text then make sure the border is the correct color and make button accessible
+    } else if ( isNaN(nameVal) ) {
+        $('#name').css('border-color', '#5e97b0');
+        $('button').prop('disabled', false).css('cursor', 'default');
+    }
+}
+ //check the name after a key is pressed and if they tab out or move to another section
+ $('#name').keyup(validateName).focusout(validateName);
+
 // Email field must be a validly formatted e-mail address (you don't have to check that it's a real e-mail address, just that it's formatted like one: dave@teamtreehouse.com for example.
-// User must select at least one checkbox under the "Register for Activities" section of the form.
-// If the selected payment option is "Credit Card," make sure the user has supplied a Credit Card number, a Zip Code, and a 3 number CVV value before the form can be submitted.
-// Credit Card field should only accept a number between 13 and 16 digits.
-// The Zip Code field should accept a 5-digit number.
-// The CVV should only accept a number that is exactly 3 digits long.
+//validate email function
+    const validateEmail = () => {
+        //remove any previous error messages
+        $('.emailVal').remove();
+        //get the email input value
+        let emailVal = $('#mail').val();
+        //regex to test against - from emailregex.com
+        let test = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        //if nothing is entered - let use know they need to enter an email
+        if( emailVal === '') {
+            $('#mail').css('border-color', 'red').attr('placeholder', 'Please Enter Your Email');
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        }
+        //if the email is valid - form submission is possible and field returns to normal state
+        else if ( test.test(emailVal) ) {
+            $('#mail').css('border-color', '#5e97b0');
+            $('button').prop('disabled', false).css('cursor', 'default');
+        //if email is not valid - form cannot be submitted and user is informed to enter a valid email
+        } else if ( !test.test(emailVal) ){
+            $('#mail').css('border-color', 'red');
+            $('#mail').after('<p class="emailVal">Please enter a valid email.</p>');
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        }
+    }
+    
+    $('#mail').keyup(validateEmail).focusout(validateEmail);
+
+
+    //credit card validation
+    //credit card number - must be numbers - must be between 13 & 16 numbers long
+    const validateCC = () => {
+        //remove any previous error messages
+        $('.ccVal').remove();
+        //reset the field back to normal
+        $('#cc-num').css('border-color', '#5e97b0');
+        //make the button accessible
+        $('button').prop('disabled', false).css('cursor', 'default');
+        //get the credit card number value
+        let ccVal = $('#cc-num').val();
+        //if the input is only numbers then check the length
+        if (!isNaN(ccVal) && ccVal != ''){
+            //split the numbers to get an array and check the length
+            let numbers = ccVal.split('');
+            //if the length is not correct, then let the user know
+            if ( numbers.length < 13 || numbers.length > 16) {
+                $('#cc-num').css('border-color', 'red');
+                $('#cc-num').after(`<p class="ccVal">Credit Card must have at least 13 numbers and no more than 16 numbers.</p>`);
+                $('button').prop('disabled', true).css('cursor', 'not-allowed');
+            }
+        //if the input is not a number, then let the user know
+        } else if (ccVal === '') {
+            $('#cc-num').css('border-color', 'red');
+            $('#cc-num').after(`<p class="ccVal">Please enter a credit card number.</p>`);
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        } else {
+            $('#cc-num').css('border-color', 'red');
+            $('#cc-num').after(`<p class="ccVal">Please enter only numbers.</p>`);
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        }
+    }
+    //call the validate function
+    $('#cc-num').keyup(validateCC).focusout(validateCC);
 
 
 
+ //zipcode - must be a number - must be 5 numbers long
+ const validateZip = () => {
+    //remove any previous error messages
+    $('.zipVal').remove();
+    //reset the field back to normal
+    $('#zip').css('border-color', '#5e97b0');
+    //make the button accessible
+    $('button').prop('disabled', false).css('cursor', 'default');
+    //get the zip code value
+    let zipVal = $('#zip').val();
+    //if the input is only numbers then check the length
+    if (!isNaN(zipVal) && zipVal != ''){
+        //split the numbers to get an array and check the length
+        let numbers = zipVal.split('');
+        //if the length is not correct, then let the user know
+        if ( numbers.length != 5) {
+            $('#zip').css('border-color', 'red');
+            $('#zip').after(`<p class="zipVal">Zip Code must be 5 numbers long.</p>`);
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        }
+    //if the input is not a number, then let the user know
+    } else if (zipVal === ''){
+        $('#zip').css('border-color', 'red');
+        $('#zip').after(`<p class="zipVal">Please enter a zip code.</p>`);
+        $('button').prop('disabled', true).css('cursor', 'not-allowed');
+    } else {
+        $('#zip').css('border-color', 'red');
+        $('#zip').after(`<p class="zipVal">Please enter only numbers.</p>`);
+        $('button').prop('disabled', true).css('cursor', 'not-allowed');
+    }
+}
+//call the validate function
+$('#zip').keyup(validateZip).focusout(validateZip);
 
-
-
-
-
-
-
-
-
-
-
-// Provide some kind of indication when there’s a validation error. The field’s borders could turn red, for example, or even better for the user would be if a red text message appeared near the field.
-// The following fields should have some obvious form of an error indication:
-// Name field
-// Email field
-// Register for Activities checkboxes (at least one must be selected)
-// Credit Card number (Only if Credit Card payment method is selected)
-// Zip Code (Only if Credit Card payment method is selected)
-// CVV (Only if Credit Card payment method is selected)
-
-
+    //cvv - must be a number - must be 3 numbers long
+    const validateCVV = () => {
+        //remove any previous error messages
+        $('.cvvVal').remove();
+        //reset the field back to normal
+        $('#cvv').css('border-color', '#5e97b0');
+        //make the button accessible
+        $('button').prop('disabled', false).css('cursor', 'default');
+        //get the zip code value
+        let cvvVal = $('#cvv').val();
+        //if the input is only numbers then check the length
+        if (!isNaN(cvvVal) && cvvVal != ''){
+            //split the numbers to get an array and check the length
+            let numbers = cvvVal.split('');
+            //if the length is not correct, then let the user know
+            if ( numbers.length != 3) {
+                $('#cvv').css('border-color', 'red');
+                $('#cvv').after(`<p class="cvvVal">CVV must be 3 numbers long.</p>`);
+                $('button').prop('disabled', true).css('cursor', 'not-allowed');
+            }
+        //if the input is not a number, then let the user know
+        } else if (cvvVal === ''){
+            $('#cvv').css('border-color', 'red');
+            $('#cvv').after(`<p class="cvvVal">Please enter a CVV.</p>`);
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        } else {
+            $('#cvv').css('border-color', 'red');
+            $('#cvv').after(`<p class="cvvVal">Please enter only numbers.</p>`);
+            $('button').prop('disabled', true).css('cursor', 'not-allowed');
+        }
+    }
+    //call the validate function
+    $('#cvv').keyup(validateCVV).focusout(validateCVV);
 
 
 // The user should still have access to all form fields and payment information if JS isn't working for whatever reason. For example, when the JS is removed from the project:
