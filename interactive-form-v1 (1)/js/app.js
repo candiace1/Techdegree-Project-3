@@ -119,7 +119,35 @@ $(activitiesField).append(moneyDiv);
 // The "Credit Card" payment option should be selected by default. Display the #credit-card div, and hide the "PayPal" and "Bitcoin" information. Payment option in the select menu should match the payment option displayed on the page.
 // When a user selects the "PayPal" payment option, the PayPal information should display, and the credit card and “Bitcoin” information should be hidden.
 // When a user selects the "Bitcoin" payment option, the Bitcoin information should display, and the credit card and “PayPal” information should be hidden.
+//adding classes to the other payment option divs to make them easier to work with
+$('#credit-card').next().addClass('paypal');
+$('#credit-card').next().next().addClass('bitcoin');
+//hide payment divs until payment preference is chosen
+$('.paypal').hide();
+$('.bitcoin').hide();
+//show credit card for default
+$('#credit-card').show();
+$('#payment option[value="credit card"]').prop('selected', true);
+//hide "select payment" option if credit card is shown on default per requirements (seems unecessary to leave it)
+$('#payment option[value="select_method"]').hide();
 
+//check to see what is selected and show matching payment div
+$('#payment').change((event) => {
+    //get the selected option
+    let selected = $('#payment option:selected').text();
+    //hide all in case they change payment options
+    $('.paypal').hide();
+    $('#credit-card').hide();
+    $('.bitcoin').hide();
+    //show the selected preference
+    if ( selected === "Credit Card" ) {
+        $('#credit-card').show();
+    } else if ( selected === "PayPal" ) {
+        $('.paypal').show();
+    } else if ( selected === "Bitcoin" ) {
+        $('.bitcoin').show();
+    }
+});
 
 
 
