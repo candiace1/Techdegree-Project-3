@@ -122,10 +122,6 @@ $('.activities').on('change', (e) => {
 //append to page
 $(activitiesField).append(moneyDiv);
 
-
-//append to page
-$(activitiesField).append(moneyDiv);
-
 // Display payment sections based on the payment option chosen in the select menu.
 $('#credit-card').next().addClass('paypal');
 $('#credit-card').next().next().addClass('bitcoin');
