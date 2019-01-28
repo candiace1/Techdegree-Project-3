@@ -102,16 +102,25 @@ var $nodeJS = $("input[name='node']");
 // As a user selects activities, a running total should display below the list of checkboxes. For example, if the user selects "Main Conference", then Total: $200 should appear. If they add 1 workshop, the total should change to Total: $300.
 let activitiesField = $('.activities');
 let moneyDiv = document.createElement('div');
+let runningTotal = '';
 $('.activities').on('change', (e) => {
-    let g = e.target.parentNode.innerHTML;
+    let isChecked = $(e.target).is(':checked'); //`input[type=checkbox]`
+    console.log('checked = ' + isChecked);
+    let g = e.target.parentNode.innerHTML; //to select text in between input field
     var pos = g.indexOf("$");
-    var res = g.substring(pos + 1);
-    console.log(res);
-    let runningTotal = parseInt(res); //runningTotal += parseInt(text)
-    //let runningTotal = $(`input[type=checkbox]`).index(g);
-    moneyDiv.innerHTML += ('$' + runningTotal);
-
+    var text = g.substring(pos + 1);
+    //console.log(res); //should be whatever number associated with checkbox
+    if(isChecked === true){
+     runningTotal += parseInt(text)
+    }
+    else if(isChecked === false){
+      runningTotal -= parseInt(text)
+    }
+    console.log(runningTotal);
+    moneyDiv.innerHTML = ('$' + runningTotal);
 });
+//append to page
+$(activitiesField).append(moneyDiv);
 
 
 //append to page
