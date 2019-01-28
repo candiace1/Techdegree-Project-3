@@ -112,6 +112,8 @@ $('.activities').on('change', (e) => {
     moneyDiv.innerHTML += ('$' + runningTotal);
 
 });
+
+
 //append to page
 $(activitiesField).append(moneyDiv);
 
